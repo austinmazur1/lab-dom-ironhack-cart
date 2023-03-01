@@ -2,12 +2,14 @@
 
 function updateSubtotal(product) {
   console.log("Calculating subtotal, yey!");
-  const price = document.querySelector(".price span");
-  const quantity = document.querySelector("input").value;
-  const subtotal = document.querySelector(".subtotal");
-  let actualPrice = price.innerText;
+  //Use product.querry for everything, so that it selects the children of the product thats being passed in
+  const price = product.querySelector(".price span");
+  const quantity = product.querySelector(".quantity input").value;
+  const subtotal = product.querySelector(".subtotal span");
+  //use parse float to convert to a number
+  let actualPrice = parseFloat(price.innerText);
   let updateSubtotal = actualPrice * quantity;
-  subtotal.innerText = `$${updateSubtotal}`;
+  subtotal.innerText = `${updateSubtotal}`;
   return updateSubtotal;
 }
 
@@ -19,12 +21,35 @@ function calculateAll() {
   // end of test
 
   // ITERATION 2
-  const product = document.getElementsByClassName('.product')
-  updateSubtotal(product);
-  console.log(product);
+  //Selecting ALL subtotal and span elements
+  let subtotals = document.querySelectorAll('.subtotal span');
+//CL shows us a node list of the two spans
+  // console.log(subtotals);
+
+  //targets the 'total' number
+  let total = document.querySelector('#total-value span') 
+  console.log(total);
+  
+
+  //for loop through this node list
+  for (let i = 0; i < subtotals.length; i++) {
+    const subtotal = subtotals[i];
+    console.log(subtotal);
+
+    //Calling parent node twice to get corresponding product element
+    //then we call the function with that product element
+    const product = subtotal.parentNode.parentNode;
+    updateSubtotal(product)
+    // return product
+  }
 
   // ITERATION 3
-  //... your code goes here
+  for(let x =- 0; x < subtotals.length; x++) {
+    let subtotal = parseFloat(subtotals[x].innerText);
+    total += subtotal;
+  }
+  const totalElement = document.querySelector('#total-value span')
+  totalElement.innerText = `$${total}`;
 }
 
 // ITERATION 4
